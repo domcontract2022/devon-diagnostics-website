@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devon Diagnostics | Fault Code Diagnostics for All Vehicles</title>
+<meta name="description" content="Devon Diagnostics provides fast, accurate fault code diagnostics for all vehicles, covering Devon and the South West. Call or email to book.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231E3A5F'/%3E%3Cpath d='M20 40h6l4-10 6 16 4-10h6' stroke='%232E8BFF' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1e3a5f;
+    --navy-dark:#142844;
+    --charcoal:#23272f;
+    --charcoal-light:#3a4150;
+    --blue:#2e8bff;
+    --blue-dark:#1b6fe0;
+    --paper:#f7f9fc;
+    --white:#ffffff;
+    --text:#23272f;
+    --text-muted:#5b6472;
+    --border:#e1e6ed;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(20,40,70,0.08);
+    --shadow-lg:0 20px 50px rgba(20,40,70,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--text);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px;}
+  section{padding:88px 0;}
+  h1,h2,h3{font-weight:800;line-height:1.15;letter-spacing:-0.01em;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--blue-dark);
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--navy-dark);}
+  .brand .logo-mark{width:38px;height:38px;flex-shrink:0;}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links a{font-weight:600;font-size:15px;color:var(--text-muted);transition:color .15s;}
+  .nav-links a:hover{color:var(--blue-dark);}
+  .nav-cta{display:flex;gap:10px;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:13px 24px;border-radius:999px;font-weight:700;font-size:15px;
+    cursor:pointer;border:2px solid transparent;transition:transform .12s, box-shadow .12s, background .15s, color .15s;
+    white-space:nowrap;
+  }
+  .btn svg{width:18px;height:18px;flex-shrink:0;}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 8px 20px rgba(46,139,255,0.35);}
+  .btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px);}
+  .btn-secondary{background:transparent;border-color:var(--navy);color:var(--navy);}
+  .btn-secondary:hover{background:var(--navy);color:#fff;transform:translateY(-1px);}
+  .btn-light{background:#fff;color:var(--navy);box-shadow:0 8px 20px rgba(20,40,70,0.18);}
+  .btn-light:hover{transform:translateY(-1px);}
+  .btn-ghost-light{background:transparent;border-color:rgba(255,255,255,0.55);color:#fff;}
+  .btn-ghost-light:hover{background:rgba(255,255,255,0.12);}
+  .btn-sm{padding:9px 16px;font-size:13px;}
+  .btn-block{width:100%;}
+
+  .nav-cta .btn{padding:10px 18px;font-size:14px;}
+
+  /* Hero */
+  .hero{
+    position:relative;
+    background:radial-gradient(1100px 600px at 80% -10%, rgba(46,139,255,0.35), transparent 60%),
+               linear-gradient(160deg, var(--navy-dark), var(--navy) 60%, var(--charcoal-light));
+    color:#fff;
+    padding:110px 0 100px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size:22px 22px;
+    opacity:.5;pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:50px;align-items:center;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(34px,4.6vw,54px);margin-bottom:18px;}
+  .hero h1 span{color:#8fc3ff;}
+  .hero p.lead{font-size:18px;color:rgba(255,255,255,0.82);max-width:520px;margin-bottom:34px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px;}
+  .hero-trust{display:flex;flex-wrap:wrap;gap:22px;font-size:14px;color:rgba(255,255,255,0.75);}
+  .hero-trust .item{display:flex;align-items:center;gap:8px;}
+  .hero-trust svg{width:18px;height:18px;color:#8fc3ff;flex-shrink:0;}
+
+  .hero-panel{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:var(--radius);
+    padding:32px;
+    backdrop-filter:blur(6px);
+  }
+  .hero-panel .diag-icon{width:72px;height:72px;margin-bottom:18px;}
+  .hero-panel h3{font-size:20px;color:#fff;margin-bottom:8px;}
+  .hero-panel p{color:rgba(255,255,255,0.75);font-size:15px;margin-bottom:22px;}
+  .hero-panel .mini-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+  .hero-panel .mini-list div{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,0.88);}
+  .hero-panel .mini-list svg{width:18px;height:18px;color:#8fc3ff;flex-shrink:0;}
+
+  /* Section headers */
+  .section-head{max-width:620px;margin:0 auto 52px;text-align:center;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);color:var(--navy-dark);margin-bottom:12px;}
+  .section-head p{color:var(--text-muted);font-size:16.5px;}
+
+  /* Services */
+  .services{background:var(--white);}
+  .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .service-card{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:30px 26px;
+    transition:transform .18s, box-shadow .18s;
+  }
+  .service-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .service-card .icon-wrap{
+    width:52px;height:52px;border-radius:12px;
+    background:linear-gradient(145deg,var(--blue),var(--navy));
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:18px;
+  }
+  .service-card .icon-wrap svg{width:26px;height:26px;color:#fff;}
+  .service-card h3{font-size:18px;color:var(--navy-dark);margin-bottom:10px;}
+  .service-card p{color:var(--text-muted);font-size:15px;}
+
+  .service-banner{
+    margin-top:28px;
+    background:linear-gradient(135deg,var(--navy-dark),var(--navy));
+    border-radius:var(--radius);
+    padding:30px 34px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    flex-wrap:wrap;
+    color:#fff;
+  }
+  .service-banner p{color:rgba(255,255,255,0.8);font-size:15px;max-width:460px;}
+  .service-banner strong{color:#fff;font-size:18px;display:block;margin-bottom:6px;}
+
+  /* About */
+  .about{background:var(--paper);}
+  .about-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:56px;align-items:center;}
+  .about-art{
+    background:linear-gradient(160deg,var(--navy),var(--charcoal-light));
+    border-radius:var(--radius);
+    aspect-ratio:4/3.1;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-lg);
+  }
+  .about-art svg{width:58%;height:58%;}
+  .about h2{font-size:clamp(26px,3.2vw,34px);color:var(--navy-dark);margin-bottom:16px;}
+  .about p{color:var(--text-muted);font-size:16px;margin-bottom:16px;}
+  .about-points{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px;}
+  .about-points div{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--text);font-weight:600;}
+  .about-points svg{width:20px;height:20px;color:var(--blue-dark);flex-shrink:0;margin-top:1px;}
+
+  /* Area */
+  .area{background:var(--white);}
+  .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .area h2{font-size:clamp(26px,3.2vw,34px);color:var(--navy-dark);margin-bottom:14px;}
+  .area p{color:var(--text-muted);font-size:16px;margin-bottom:10px;}
+  .area-map{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:30px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .area-map svg{width:100%;max-width:340px;}
+  .area-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .area-tags span{
+    background:var(--paper);border:1px solid var(--border);
+    padding:7px 14px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--navy-dark);
+  }
+
+  /* CTA / contact */
+  .cta{
+    background:linear-gradient(160deg,var(--navy-dark),var(--navy) 55%,var(--charcoal-light));
+    color:#fff;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .cta::after{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size:22px 22px;opacity:.5;
+  }
+  .cta-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;}
+  .cta h2{font-size:clamp(26px,3.6vw,38px);margin-bottom:14px;}
+  .cta p{color:rgba(255,255,255,0.78);font-size:16.5px;margin-bottom:38px;}
+  .contact-buttons{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+  .contact-buttons .btn{padding:17px 30px;font-size:16px;}
+  .contact-direct{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;font-size:15px;color:rgba(255,255,255,0.85);}
+  .contact-direct a{font-weight:700;color:#fff;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:2px;}
+  .contact-direct .row{display:flex;align-items:center;gap:8px;}
+  .contact-direct svg{width:17px;height:17px;color:#8fc3ff;}
+
+  /* Footer */
+  footer{background:var(--charcoal);color:rgba(255,255,255,0.65);padding:36px 0;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:14px;}
+  .footer-brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;}
+  .footer-brand svg{width:22px;height:22px;}
+
+  /* Mobile */
+  @media (max-width:860px){
+    section{padding:64px 0;}
+    .nav-links{display:none;}
+    .hero{padding:72px 0 64px;}
+    .hero-grid{grid-template-columns:1fr;gap:40px;}
+    .hero p.lead{max-width:none;}
+    .service-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .about-art{order:-1;aspect-ratio:16/10;}
+    .about-points{grid-template-columns:1fr;}
+    .area-grid{grid-template-columns:1fr;}
+    .area-map{order:-1;}
+    .service-banner{flex-direction:column;text-align:center;}
+    .contact-buttons .btn{width:100%;max-width:320px;}
+    .footer-row{flex-direction:column;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="14" fill="#1E3A5F"/>
+        <path d="M14 36h8l5-13 8 21 5-13h10" stroke="#2E8BFF" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Devon Diagnostics
+    </div>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#area">Coverage</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-secondary btn-sm" href="tel:+447756696395" aria-label="Call Devon Diagnostics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow" style="color:#8fc3ff;">
+        <span style="color:#8fc3ff;">Mobile Fault Code Diagnostics</span>
+      </div>
+      <h1>Know exactly what's wrong with your car — <span>fast.</span></h1>
+      <p class="lead">Devon Diagnostics provides fast, accurate fault code diagnostics for all makes and models, covering Devon and the South West.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="tel:+447756696395" aria-label="Call Devon Diagnostics now">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call 07756 696395
+        </a>
+        <a class="btn btn-ghost-light" href="mailto:Theo@devondyg.co.uk?subject=Car%20Diagnostic%20Enquiry&body=Hi%20Theo%2C%0A%0AI'd%20like%20to%20book%20a%20fault%20code%20diagnostic.%20Here%20are%20my%20details%3A%0A%0AVehicle%20make%20%26%20model%3A%0ARegistration%3A%0ADescription%20of%20the%20issue%3A%0ALocation%3A%0A%0AThanks" aria-label="Email Devon Diagnostics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6" /><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          Email Us
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> All makes &amp; models</div>
+        <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Devon &amp; the South West</div>
+        <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Clear, honest reports</div>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <svg class="diag-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="12" width="56" height="40" rx="6" stroke="#8fc3ff" stroke-width="3"/>
+        <path d="M10 32h8l4-10 8 20 4-10h8" stroke="#2E8BFF" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="20" r="2.4" fill="#8fc3ff"/>
+      </svg>
+      <h3>What a diagnostic check tells you</h3>
+      <p>A clear picture of what's triggering your warning lights — before you pay for guesswork.</p>
+      <div class="mini-list">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full fault code read-out</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Plain-English explanation</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Guidance on next steps</div>
+      </div>
+      <a class="btn btn-light btn-block" href="tel:+447756696395">Book a Diagnostic</a>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">What We Do</div>
+      <h2>Fault code diagnostics for every vehicle</h2>
+      <p>If a warning light's on, we'll tell you exactly what it means — no guesswork, no unnecessary parts.</p>
+    </div>
+
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h3>Warning Light &amp; Fault Code Reading</h3>
+        <p>Full diagnostic scan to read and interpret fault codes from your vehicle's on-board computer — engine, dashboard warning lights and more.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+        </div>
+        <h3>Clear, Honest Reports</h3>
+        <p>Every check comes with a plain-English explanation of what's wrong and what it means for your car — no jargon, no upselling.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <h3>All Makes &amp; Models</h3>
+        <p>Cars, vans and light commercial vehicles — whatever you drive, we can connect, diagnose, and talk you through the result.</p>
+      </div>
+    </div>
+
+    <div class="service-banner">
+      <div>
+        <strong>Not sure what's wrong? That's exactly what we're for.</strong>
+        <p>Get a straight answer on your fault codes before you book a repair — it could save you time and money.</p>
+      </div>
+      <a class="btn btn-primary" href="tel:+447756696395">Call 07756 696395</a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-art">
+      <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="160" height="120" rx="10" stroke="#8fc3ff" stroke-width="3"/>
+        <path d="M34 90h20l10-26 20 52 10-26h20" stroke="#2E8BFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="150" cy="45" r="5" fill="#8fc3ff"/>
+        <circle cx="50" cy="45" r="5" fill="#8fc3ff"/>
+      </svg>
+    </div>
+    <div>
+      <div class="eyebrow">About Devon Diagnostics</div>
+      <h2>Straightforward diagnostics, no guesswork</h2>
+      <p>Devon Diagnostics was set up to give drivers across Devon and the South West a fast, honest way to find out what's actually wrong with their vehicle — before committing to a repair.</p>
+      <p>Using professional diagnostic equipment, every fault code is read, checked and explained clearly, so you know exactly what you're dealing with and what to do next.</p>
+      <div class="about-points">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Friendly &amp; approachable</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Clear, no-jargon reports</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> All vehicles welcome</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Covers Devon &amp; the South West</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="area" id="area">
+  <div class="container area-grid">
+    <div>
+      <div class="eyebrow">Coverage</div>
+      <h2>Covering Devon and the South West</h2>
+      <p>Wherever you are in the region, Devon Diagnostics can help — get in touch to check availability for your area.</p>
+      <div class="area-tags">
+        <span>Exeter</span>
+        <span>Plymouth</span>
+        <span>Torbay</span>
+        <span>North Devon</span>
+        <span>Somerset border</span>
+        <span>Cornwall border</span>
+      </div>
+    </div>
+    <div class="area-map">
+      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 30 L120 20 L170 40 L220 30 L260 70 L250 120 L270 160 L230 200 L180 210 L140 190 L100 210 L60 190 L30 150 L50 100 Z"
+          fill="#f7f9fc" stroke="#1e3a5f" stroke-width="3"/>
+        <circle cx="110" cy="100" r="7" fill="#2E8BFF"/>
+        <circle cx="150" cy="150" r="7" fill="#2E8BFF"/>
+        <circle cx="190" cy="90" r="7" fill="#2E8BFF"/>
+        <circle cx="80" cy="150" r="7" fill="#2E8BFF"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container cta-inner">
+    <div class="eyebrow" style="color:#8fc3ff;"><span style="color:#8fc3ff;">Get In Touch</span></div>
+    <h2>Ready to find out what's wrong?</h2>
+    <p>Call for the fastest response, or email us your vehicle details and we'll get back to you.</p>
+
+    <div class="contact-buttons">
+      <a class="btn btn-primary" href="tel:+447756696395" aria-label="Call Devon Diagnostics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Now
+      </a>
+      <a class="btn btn-light" href="mailto:Theo@devondyg.co.uk?subject=Car%20Diagnostic%20Enquiry&body=Hi%20Theo%2C%0A%0AI'd%20like%20to%20book%20a%20fault%20code%20diagnostic.%20Here%20are%20my%20details%3A%0A%0AVehicle%20make%20%26%20model%3A%0ARegistration%3A%0ADescription%20of%20the%20issue%3A%0ALocation%3A%0A%0AThanks" aria-label="Email Devon Diagnostics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        Email Us
+      </a>
+    </div>
+
+    <div class="contact-direct">
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <a href="tel:+447756696395">07756 696395</a></div>
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg> <a href="mailto:Theo@devondyg.co.uk">Theo@devondyg.co.uk</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-row">
+    <div class="footer-brand">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="14" fill="#2E8BFF"/>
+        <path d="M14 36h8l5-13 8 21 5-13h10" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Devon Diagnostics
+    </div>
+    <div>&copy; <span id="year"></span> Devon Diagnostics. Covering Devon &amp; the South West.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
