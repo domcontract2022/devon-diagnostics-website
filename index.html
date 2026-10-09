@@ -476,28 +476,7 @@
 
     map.on('load', function(){
       var bounds = new maplibregl.LngLatBounds();
-
-      locations.forEach(function(loc){
-        var pin = document.createElement('div');
-        pin.style.width = '16px';
-        pin.style.height = '16px';
-        pin.style.borderRadius = '50% 50% 50% 0';
-        pin.style.background = '#2E8BFF';
-        pin.style.border = '2px solid #ffffff';
-        pin.style.boxShadow = '0 2px 6px rgba(20,40,70,0.4)';
-        pin.style.transform = 'rotate(-45deg)';
-        pin.style.cursor = 'pointer';
-
-        new maplibregl.Marker({ element: pin, anchor: 'bottom' })
-          .setLngLat(loc.coords)
-          .setPopup(new maplibregl.Popup({ offset: 20 }).setHTML(
-            '<strong>' + loc.name + '</strong><br>Devon Diagnostics coverage area'
-          ))
-          .addTo(map);
-
-        bounds.extend(loc.coords);
-      });
-
+      locations.forEach(function(loc){ bounds.extend(loc.coords); });
       map.fitBounds(bounds, { padding: 48, duration: 0 });
     });
 
