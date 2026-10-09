@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.css">
 <style>
   :root{
     --navy:#1e3a5f;
@@ -194,8 +194,8 @@
     width:100%;
     height:360px;
   }
-  .area-map .leaflet-popup-content{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;}
-  .area-map .leaflet-popup-content strong{color:var(--navy-dark);}
+  .area-map .maplibregl-popup-content{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;padding:10px 14px;}
+  .area-map .maplibregl-popup-content strong{color:var(--navy-dark);}
   .area-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
   .area-tags span{
     background:var(--paper);border:1px solid var(--border);
@@ -446,52 +446,63 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.js"></script>
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
   (function initCoverageMap(){
     var mapEl = document.getElementById('coverage-map');
-    if (!mapEl || typeof L === 'undefined') return;
+    if (!mapEl || typeof maplibregl === 'undefined') return;
 
-    var map = L.map('coverage-map', {
-      scrollWheelZoom: false,
-      center: [50.78, -3.85],
-      zoom: 8
+    var map = new maplibregl.Map({
+      container: 'coverage-map',
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+      center: [-3.85, 50.78],
+      zoom: 7.6,
+      scrollZoom: false,
+      attributionControl: true
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var pinIcon = L.divIcon({
-      className: 'devon-diag-pin',
-      html: '<div style="width:16px;height:16px;border-radius:50% 50% 50% 0;background:#2E8BFF;border:2px solid #ffffff;box-shadow:0 2px 6px rgba(20,40,70,0.4);transform:rotate(-45deg);"></div>',
-      iconSize: [16, 16],
-      iconAnchor: [8, 16]
-    });
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 
     var locations = [
-      { name: 'Exeter',          coords: [50.7184, -3.5339] },
-      { name: 'Plymouth',        coords: [50.3755, -4.1427] },
-      { name: 'Torbay',          coords: [50.4619, -3.5253] },
-      { name: 'North Devon',     coords: [51.0803, -4.0636] },
-      { name: 'Somerset border', coords: [51.0152, -3.1058] },
-      { name: 'Cornwall border', coords: [50.4551, -4.4632] }
+      { name: 'Exeter',          coords: [-3.5339, 50.7184] },
+      { name: 'Plymouth',        coords: [-4.1427, 50.3755] },
+      { name: 'Torbay',          coords: [-3.5253, 50.4619] },
+      { name: 'North Devon',     coords: [-4.0636, 51.0803] },
+      { name: 'Somerset border', coords: [-3.1058, 51.0152] },
+      { name: 'Cornwall border', coords: [-4.4632, 50.4551] }
     ];
 
-    var bounds = [];
-    locations.forEach(function(loc){
-      L.marker(loc.coords, { icon: pinIcon }).addTo(map)
-        .bindPopup('<strong>' + loc.name + '</strong><br>Devon Diagnostics coverage area');
-      bounds.push(loc.coords);
+    map.on('load', function(){
+      var bounds = new maplibregl.LngLatBounds();
+
+      locations.forEach(function(loc){
+        var pin = document.createElement('div');
+        pin.style.width = '16px';
+        pin.style.height = '16px';
+        pin.style.borderRadius = '50% 50% 50% 0';
+        pin.style.background = '#2E8BFF';
+        pin.style.border = '2px solid #ffffff';
+        pin.style.boxShadow = '0 2px 6px rgba(20,40,70,0.4)';
+        pin.style.transform = 'rotate(-45deg)';
+        pin.style.cursor = 'pointer';
+
+        new maplibregl.Marker({ element: pin, anchor: 'bottom' })
+          .setLngLat(loc.coords)
+          .setPopup(new maplibregl.Popup({ offset: 20 }).setHTML(
+            '<strong>' + loc.name + '</strong><br>Devon Diagnostics coverage area'
+          ))
+          .addTo(map);
+
+        bounds.extend(loc.coords);
+      });
+
+      map.fitBounds(bounds, { padding: 48, duration: 0 });
     });
 
-    map.fitBounds(bounds, { padding: [28, 28] });
-
-    map.on('focus', function(){ map.scrollWheelZoom.enable(); });
-    map.on('blur', function(){ map.scrollWheelZoom.disable(); });
+    mapEl.addEventListener('mouseenter', function(){ map.scrollZoom.enable(); });
+    mapEl.addEventListener('mouseleave', function(){ map.scrollZoom.disable(); });
   })();
 </script>
 
