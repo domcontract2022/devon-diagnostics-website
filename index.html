@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root{
     --navy:#1e3a5f;
@@ -186,10 +187,15 @@
     background:var(--paper);
     border:1px solid var(--border);
     border-radius:var(--radius);
-    padding:30px;
-    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    box-shadow:var(--shadow);
   }
-  .area-map svg{width:100%;max-width:340px;}
+  .area-map #coverage-map{
+    width:100%;
+    height:360px;
+  }
+  .area-map .leaflet-popup-content{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;}
+  .area-map .leaflet-popup-content strong{color:var(--navy-dark);}
   .area-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
   .area-tags span{
     background:var(--paper);border:1px solid var(--border);
@@ -262,7 +268,7 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-secondary btn-sm" href="tel:+447756696395" aria-label="Call Devon Diagnostics">
+      <a class="btn btn-secondary btn-sm" href="tel:+447756963595" aria-label="Call Devon Diagnostics">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         Call
       </a>
@@ -279,9 +285,9 @@
       <h1>Know exactly what's wrong with your car — <span>fast.</span></h1>
       <p class="lead">Devon Diagnostics provides fast, accurate fault code diagnostics for all makes and models, covering Devon and the South West.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="tel:+447756696395" aria-label="Call Devon Diagnostics now">
+        <a class="btn btn-primary" href="tel:+447756963595" aria-label="Call Devon Diagnostics now">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          Call 07756 696395
+          Call 07756 963595
         </a>
         <a class="btn btn-ghost-light" href="mailto:Theo@devondyg.co.uk?subject=Car%20Diagnostic%20Enquiry&body=Hi%20Theo%2C%0A%0AI'd%20like%20to%20book%20a%20fault%20code%20diagnostic.%20Here%20are%20my%20details%3A%0A%0AVehicle%20make%20%26%20model%3A%0ARegistration%3A%0ADescription%20of%20the%20issue%3A%0ALocation%3A%0A%0AThanks" aria-label="Email Devon Diagnostics">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6" /><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
@@ -308,7 +314,7 @@
         <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Plain-English explanation</div>
         <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Guidance on next steps</div>
       </div>
-      <a class="btn btn-light btn-block" href="tel:+447756696395">Book a Diagnostic</a>
+      <a class="btn btn-light btn-block" href="tel:+447756963595">Book a Diagnostic</a>
     </div>
   </div>
 </section>
@@ -352,7 +358,7 @@
         <strong>Not sure what's wrong? That's exactly what we're for.</strong>
         <p>Get a straight answer on your fault codes before you book a repair — it could save you time and money.</p>
       </div>
-      <a class="btn btn-primary" href="tel:+447756696395">Call 07756 696395</a>
+      <a class="btn btn-primary" href="tel:+447756963595">Call 07756 963595</a>
     </div>
   </div>
 </section>
@@ -398,14 +404,7 @@
       </div>
     </div>
     <div class="area-map">
-      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
-        <path d="M40 30 L120 20 L170 40 L220 30 L260 70 L250 120 L270 160 L230 200 L180 210 L140 190 L100 210 L60 190 L30 150 L50 100 Z"
-          fill="#f7f9fc" stroke="#1e3a5f" stroke-width="3"/>
-        <circle cx="110" cy="100" r="7" fill="#2E8BFF"/>
-        <circle cx="150" cy="150" r="7" fill="#2E8BFF"/>
-        <circle cx="190" cy="90" r="7" fill="#2E8BFF"/>
-        <circle cx="80" cy="150" r="7" fill="#2E8BFF"/>
-      </svg>
+      <div id="coverage-map" role="img" aria-label="Map of Devon Diagnostics' coverage area across Devon and the South West"></div>
     </div>
   </div>
 </section>
@@ -417,7 +416,7 @@
     <p>Call for the fastest response, or email us your vehicle details and we'll get back to you.</p>
 
     <div class="contact-buttons">
-      <a class="btn btn-primary" href="tel:+447756696395" aria-label="Call Devon Diagnostics">
+      <a class="btn btn-primary" href="tel:+447756963595" aria-label="Call Devon Diagnostics">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         Call Now
       </a>
@@ -428,7 +427,7 @@
     </div>
 
     <div class="contact-direct">
-      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <a href="tel:+447756696395">07756 696395</a></div>
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <a href="tel:+447756963595">07756 963595</a></div>
       <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg> <a href="mailto:Theo@devondyg.co.uk">Theo@devondyg.co.uk</a></div>
     </div>
   </div>
@@ -447,8 +446,53 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function initCoverageMap(){
+    var mapEl = document.getElementById('coverage-map');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    var map = L.map('coverage-map', {
+      scrollWheelZoom: false,
+      center: [50.78, -3.85],
+      zoom: 8
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var pinIcon = L.divIcon({
+      className: 'devon-diag-pin',
+      html: '<div style="width:16px;height:16px;border-radius:50% 50% 50% 0;background:#2E8BFF;border:2px solid #ffffff;box-shadow:0 2px 6px rgba(20,40,70,0.4);transform:rotate(-45deg);"></div>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 16]
+    });
+
+    var locations = [
+      { name: 'Exeter',          coords: [50.7184, -3.5339] },
+      { name: 'Plymouth',        coords: [50.3755, -4.1427] },
+      { name: 'Torbay',          coords: [50.4619, -3.5253] },
+      { name: 'North Devon',     coords: [51.0803, -4.0636] },
+      { name: 'Somerset border', coords: [51.0152, -3.1058] },
+      { name: 'Cornwall border', coords: [50.4551, -4.4632] }
+    ];
+
+    var bounds = [];
+    locations.forEach(function(loc){
+      L.marker(loc.coords, { icon: pinIcon }).addTo(map)
+        .bindPopup('<strong>' + loc.name + '</strong><br>Devon Diagnostics coverage area');
+      bounds.push(loc.coords);
+    });
+
+    map.fitBounds(bounds, { padding: [28, 28] });
+
+    map.on('focus', function(){ map.scrollWheelZoom.enable(); });
+    map.on('blur', function(){ map.scrollWheelZoom.disable(); });
+  })();
 </script>
 
 </body>
